@@ -3,9 +3,11 @@
 
 #include "polygon.h"
 
+extern const double pi;
+
 Coordinate findCentroid(Polygon polygon);
-void translate(Polygon& polygon, float translate_x, float translate_y, float translate_z);
-void scale(Polygon& polygon, float factor);
-void rotate(Polygon& polygon, Coordinate axis_start, Coordinate axis_end, float angle);
+void translate(Polygon& polygon, double translate_x, double translate_y, double translate_z);
+void scale(Polygon& polygon, double factor);
+void rotate(Polygon& polygon, Coordinate axis_start, Coordinate axis_end, double angle);
 
 #endif
