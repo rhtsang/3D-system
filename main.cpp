@@ -52,6 +52,12 @@ int main(int argc, char *argv[])
     //     cin >> factor;
     //     scale(polygons, polygonID, factor);
     // }
+
+    //translate(polygons.at(0), 1, 1, 1);
+    //scale(polygons.at(0), 2);
+    Coordinate axis_start(0, 5, 0);
+    Coordinate axis_end(5, 0, 0);
+    rotate(polygons.at(0), axis_start, axis_end, pi);
     writeFile(argv[2], polygons);
 
 
