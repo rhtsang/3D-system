@@ -1,7 +1,6 @@
 #include "projection.h"
 #include <GL/glut.h>
 #include <cstdlib>
-#include <iostream>
 
 vector<Polygon> bound(vector<Polygon> polygons) {
 
@@ -65,6 +64,11 @@ void project(vector<Polygon> polygons) {
             float r = ((float) rand())/ ((float) RAND_MAX);
             float g = ((float) rand())/ ((float) RAND_MAX);
             float b = ((float) rand())/ ((float) RAND_MAX);
+
+            // map world coordinates to NDC coordinates in 3 different quadrants on display window
+            // upper left: XY plane
+            // upper right: YZ plane
+            // lower right: XZ plane
             glColor3f(r, g, b);
             // XY plane in upper left quadrant
             glVertex2f(vertices.at(itr2->from - 1).x - 1, vertices.at(itr2->from - 1).y);

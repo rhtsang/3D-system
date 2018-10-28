@@ -39,26 +39,29 @@ void scale(Polygon& polygon, double factor) {
 
     Coordinate centroid = findCentroid(polygon);
 
+    // translate to centroid to origin
     translate(polygon, -1*centroid.x, -1*centroid.y, -1*centroid.z);
 
+    // scale
     for (int i = 0; i < polygon.vertices.size(); i++) {
         polygon.vertices.at(i).x *= factor;
         polygon.vertices.at(i).y *= factor;
         polygon.vertices.at(i).z *= factor;
     }
 
+    // translate back
     translate(polygon, centroid.x, centroid.y, centroid.z);
 
 }
 
 void rotate(Polygon& polygon, Coordinate axis_start, Coordinate axis_end, double angle) {
 
+    // copy the rotation axis to update throughout operations
     Coordinate transform_axis_start = axis_start;
     Coordinate transform_axis_end = axis_end;
     double phi = 0;
     double theta = 0;
 
-    // translate to origin
     // translate rotation axis to origin
     transform_axis_end.x -= transform_axis_start.x;
     transform_axis_end.y -= transform_axis_start.y;
