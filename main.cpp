@@ -4,74 +4,30 @@
 #include "polygon.h"
 #include "filemanipulation.h"
 #include "transform.h"
+#include "projection.h"
 
-float *PixelBuffer;
-int width, height;
 void display();
+vector<Polygon> polygons;
+char* outputFile;
 
 int main(int argc, char *argv[])
 {
-
-	// User interaction
-
-    // viewport
-    // cout << "Enter the width of the viewing window: ";
-    // cin >> width;
-    // cout << "Enter the height of the viewing window: ";
-    // cin >> height;
-	// PixelBuffer = new float[width * height * 3];
-    //
-    // // transformation prompt
-	// int polygonID;
-    // char transformation;
-    // char lineMode;
-	// cout << "Enter the ID of the polygon you want to manipulate (indexing starts at 0): ";
-	// cin >> polygonID;
-    // cout << "Enter the first letter of the transformation you want performed. 's' for scale, 'r' for rotate, 't' for translate: ";
-    // cin >> transformation;
-    // cout << "How would you like edges to be drawn? Enter 'b' for Bresenham or 'd' for DDA:";
-    // cin >> lineMode;
-    //
-    vector<Polygon> polygons;
 	readFile(argv[1], polygons);
-    // if (transformation == 't') {
-    //     float translate_x, translate_y;
-    //     cout << "How far along the x-axis would you like to translate? ";
-    //     cin >> translate_x;
-    //     cout << "How far along the x-axis would you like to translate? ";
-    //     cin >> translate_y;
-    //     translate(polygons, polygonID, translate_x, translate_y);
-    // } else if (transformation == 'r') {
-    //     float angle;
-    //     cout << "How far would you like to rotate? (enter an angle in degrees) ";
-    //     cin >> angle;
-    //     rotate(polygons, polygonID, angle);
-    // } else if (transformation == 's') {
-    //     float factor;
-    //     cout << "How much would you like to scale? ";
-    //     cin >> factor;
-    //     scale(polygons, polygonID, factor);
-    // }
-
-    //translate(polygons.at(0), 1, 1, 1);
-    //scale(polygons.at(0), 2);
-    Coordinate axis_start(0, 5, 0);
-    Coordinate axis_end(5, 0, 0);
-    rotate(polygons.at(0), axis_start, axis_end, pi);
-    writeFile(argv[2], polygons);
+    outputFile = argv[2];
+    //writeFile(argv[2], polygons);
 
 
-	// glutInit(&argc, argv);
-	// glutInitDisplayMode(GLUT_SINGLE);
-	// glutInitWindowSize(width, height);
-	// glutInitWindowPosition(width/2, height/2);
-    //
-	// //create and set main window title
-	// int MainWindow = glutCreateWindow("ECS175 Project 2");
-	// glClearColor(0, 0, 0, 0); //clears the buffer of OpenGL
-	// glutDisplayFunc(display);
-    //
-	// glutMainLoop();//main display loop, will display until terminate
+	glutInit(&argc, argv);
+	glutInitDisplayMode(GLUT_SINGLE);
+	//glutInitWindowSize(width, height);
+	//glutInitWindowPosition(width/2, height/2);
+
+	//create and set main window title
+	int MainWindow = glutCreateWindow("ECS175 Project 2");
+	glClearColor(0, 0, 0, 0); //clears the buffer of OpenGL
+	glutDisplayFunc(display);
+
+	glutMainLoop();//main display loop, will display until terminate
 
 	return 0;
 }
@@ -79,13 +35,62 @@ int main(int argc, char *argv[])
 //main display loop, this function will be called again and again by OpenGL
 void display()
 {
+    // transformation prompt
+    int polygonID;
+    char transformation;
+    cout << "Enter the ID of the polygon you want to manipulate (indexing starts at 0): ";
+    cin >> polygonID;
+    cout << "Enter the first letter of the transformation you want performed. 's' for scale, 'r' for rotate, 't' for translate: ";
+    cin >> transformation;
+
+    if (transformation == 't') {
+        float translate_x, translate_y, translate_z;
+        cout << "How far along the x-axis would you like to translate? ";
+        cin >> translate_x;
+        cout << "How far along the y-axis would you like to translate? ";
+        cin >> translate_y;
+        cout << "How far along the z-axis would you like to translate? ";
+        cin >> translate_z;
+        translate(polygons.at(polygonID), translate_x, translate_y, translate_z);
+    } else if (transformation == 'r') {
+        float axis_start_x, axis_start_y, axis_start_z, axis_end_x, axis_end_y, axis_end_z;
+        float angle;
+        cout << "Enter the x-coordinate of the starting point of the rotation axis: ";
+        cin >> axis_start_x;
+        cout << "Enter the y-coordinate of the starting point of the rotation axis: ";
+        cin >> axis_start_y;
+        cout << "Enter the z-coordinate of the starting point of the rotation axis: ";
+        cin >> axis_start_z;
+        Coordinate start(axis_start_x, axis_start_y, axis_start_z);
+        cout << "Enter the x-coordinate of the ending point of the rotation axis: ";
+        cin >> axis_end_x;
+        cout << "Enter the y-coordinate of the ending point of the rotation axis: ";
+        cin >> axis_end_y;
+        cout << "Enter the z-coordinate of the ending point of the rotation axis: ";
+        cin >> axis_end_z;
+        Coordinate end(axis_end_x, axis_end_y, axis_end_z);
+        cout << "How far would you like to rotate? (enter an angle in radians) ";
+        cin >> angle;
+        rotate(polygons.at(polygonID), start, end, angle);
+    } else if (transformation == 's') {
+        float factor;
+        cout << "How much would you like to scale? ";
+        cin >> factor;
+        scale(polygons.at(polygonID), factor);
+    }
+
+    writeFile(outputFile, polygons);
+
 	//Misc.
 	glClear(GL_COLOR_BUFFER_BIT);
 	glLoadIdentity();
 
-	//draws pixel on screen, width and height must match pixel buffer dimension
-	//glDrawPixels(width, height, GL_RGB, GL_FLOAT, PixelBuffer);
+    // bound and project onto planes
+    vector<Polygon> boundedPolygons = bound(polygons);
+    project(boundedPolygons);
+
 
 	//window refresh
 	glFlush();
+    glutPostRedisplay();
 }
