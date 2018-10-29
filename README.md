@@ -17,7 +17,7 @@ Location of algorithm implementations
 -----------------
 
 Transformations: transform.cpp, under the functions rotate(), scale(), and translate()  
-Projections: projection.cpp, under the function clip()  
+Projections: projection.cpp, under the functions bound() (for computing a bounding box and mapping to NDC) and project()
 
 Other
 --------------
