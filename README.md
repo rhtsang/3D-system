@@ -1,4 +1,4 @@
-# Project 1: A Simple 2D Drawing System
+# Project 2: A 3D Transformation and Projection System
 
 ###### Raymond Tsang
 ###### 912868864
