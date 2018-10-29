@@ -14,13 +14,9 @@ int main(int argc, char *argv[])
 {
 	readFile(argv[1], polygons);
     outputFile = argv[2];
-    //writeFile(argv[2], polygons);
-
 
 	glutInit(&argc, argv);
 	glutInitDisplayMode(GLUT_SINGLE);
-	//glutInitWindowSize(width, height);
-	//glutInitWindowPosition(width/2, height/2);
 
 	//create and set main window title
 	int MainWindow = glutCreateWindow("ECS175 Project 2");
@@ -88,7 +84,6 @@ void display()
     // bound and project onto planes
     vector<Polygon> boundedPolygons = bound(polygons);
     project(boundedPolygons);
-
 
 	//window refresh
 	glFlush();
