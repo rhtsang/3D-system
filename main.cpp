@@ -81,6 +81,14 @@ void display()
 	glClear(GL_COLOR_BUFFER_BIT);
 	glLoadIdentity();
 
+    // divide viewing screen into quadrants to display XY, YZ, and XZ planes
+    glBegin(GL_LINES);
+    glVertex2f(0, 1);
+    glVertex2f(0, -1);
+    glVertex2f(-1, 0);
+    glVertex2f(1,0);
+    glEnd();
+
     // bound and project onto planes
     vector<Polygon> boundedPolygons = bound(polygons);
     project(boundedPolygons);

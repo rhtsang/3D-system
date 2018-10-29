@@ -1,2 +1,26 @@
-# 3D-system
-A 3D transformation and projection system
+# Project 1: A Simple 2D Drawing System
+
+###### Raymond Tsang
+###### 912868864
+###### rhtsang@ucdavis.edu
+
+Compilation and name of executable
+----------
+In the project's root directory, run 'make' to compile the executable named 'draw'
+
+How to run, command syntax, input/output file format
+---------
+The syntax to run the program is "./draw input output" where "input" and "output" are names of input and output files.  
+The file format of the input and output files is the same as the one described in the project specifications.
+
+Location of algorithm implementations
+-----------------
+
+Transformations: transform.cpp, under the functions rotate(), scale(), and translate()  
+Projections: projection.cpp, under the function clip()  
+
+Other
+--------------
+When coordinates are rotated, the rotated coordinates written to the output file have some rounding error. I assume this to be because of the cmath library's sine, cosine, and tangent functions.  
+It is assumed that the coordinates of the input polygons all lie within the unit cube, as stated in the project specifications.  
+When the wire frames are projected onto the viewing screen, the upper-left quadrant corresponds to the XY plane, upper-right quadrant to the YZ plane, and bottom-right to the XZ plane.  
